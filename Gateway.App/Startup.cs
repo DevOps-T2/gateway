@@ -43,13 +43,6 @@ namespace Gateway.App
 
             app.UseAuthorization();
 
-            /*var subscriber = new AutoSubscriber(app.ApplicationServices.GetRequiredService<IBus>(), "solvers")
-            {
-                AutoSubscriberMessageDispatcher = new ScopeDispatcher(app.ApplicationServices.GetRequiredService<IServiceScopeFactory>())
-            };
-
-            subscriber.Subscribe(Assembly.GetExecutingAssembly().GetTypes());
-            subscriber.SubscribeAsync(Assembly.GetExecutingAssembly().GetTypes()); */
 
             app.UseSwaggerForOcelotUI(opt =>
             {
