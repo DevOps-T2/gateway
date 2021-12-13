@@ -15,11 +15,8 @@ namespace Gateway.App
 
         public void ConfigureServices(IServiceCollection services)
         {
-
- 
             services.AddRazorPages();
             services.AddControllersWithViews();
-
 
             services.AddSwaggerForOcelot(Configuration);
 
@@ -42,7 +39,6 @@ namespace Gateway.App
             app.UseRouting();
 
             app.UseAuthorization();
-
 
             app.UseSwaggerForOcelotUI(opt =>
             {
