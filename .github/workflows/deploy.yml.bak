@@ -21,8 +21,8 @@ env:
   PROJECT_ID: ${{ secrets.GKE_PROJECT }}
   GKE_CLUSTER: dev # TODO: update to cluster name
   GKE_ZONE: europe-west1-b # TODO: update to cluster zone
-  DEPLOYMENT_NAME: solvers # TODO: update to deployment name
-  IMAGE: solvers
+  DEPLOYMENT_NAME: gateway # TODO: update to deployment name
+  IMAGE: gateway
 
 jobs:
   setup-build-publish-deploy:
@@ -58,7 +58,7 @@ jobs:
             --tag "gcr.io/$PROJECT_ID/$IMAGE:$GITHUB_SHA" \
             --build-arg GITHUB_SHA="$GITHUB_SHA" \
             --build-arg GITHUB_REF="$GITHUB_REF" \
-            ./Solvers.App/
+            ./gateway.App/
       # Push the Docker image to Google Container Registry
       - name: Publish
         run: |-
@@ -71,7 +71,7 @@ jobs:
       # Deploy the Docker image to the GKE cluster
       - name: Deploy
         run: |-
-          ./kustomize edit set image solvers=gcr.io/$PROJECT_ID/$IMAGE:$GITHUB_SHA
+          ./kustomize edit set image gateway=gcr.io/$PROJECT_ID/$IMAGE:$GITHUB_SHA
           ./kustomize build . | kubectl apply -f -
           kubectl rollout status deployment/$DEPLOYMENT_NAME
           kubectl get services -o wide
