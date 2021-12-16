@@ -1,4 +1,2 @@
-commonLabels:
-  group: gateway-app
 resources:
   - Gateway.App/Deploy/Dev/app.yml
