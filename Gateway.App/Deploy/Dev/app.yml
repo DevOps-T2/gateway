@@ -6,6 +6,8 @@ metadata:
   name: gateway
 spec:
   replicas: 1
+  matchLabels:
+    app: gateway-app
   template:
     metadata:
       labels:
@@ -24,7 +26,7 @@ kind: Service
 metadata:
   name: gateway-app
   labels:
-    app: gateway
+    app: gateway-app
 spec:
   type: LoadBalancer
   ports:
