@@ -8,6 +8,9 @@ spec:
   replicas: 1
   matchLabels:
     app: gateway-app
+  selector:
+    matchLabels:
+      dummu: gateway-app
   template:
     metadata:
       labels:
