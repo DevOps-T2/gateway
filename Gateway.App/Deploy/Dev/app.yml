@@ -5,12 +5,12 @@ metadata:
     app: gateway-app
   name: gateway
 spec:
-  replicas: 1
   matchLabels:
     app: gateway-app
+  replicas: 1
   selector:
     matchLabels:
-      dummu: gateway-app
+      app: gateway-app
   template:
     metadata:
       labels:
