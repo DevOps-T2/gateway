@@ -5,8 +5,6 @@ metadata:
     app: gateway-app
   name: gateway
 spec:
-  matchLabels:
-    app: gateway-app
   replicas: 1
   selector:
     matchLabels:
