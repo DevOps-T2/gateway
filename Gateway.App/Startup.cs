@@ -15,6 +15,17 @@ namespace Gateway.App
 
         public void ConfigureServices(IServiceCollection services)
         {
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                    builder => builder.AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowCredentials());
+            });
+
+
             services.AddRazorPages();
             services.AddControllersWithViews();
 
