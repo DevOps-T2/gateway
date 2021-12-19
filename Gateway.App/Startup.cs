@@ -39,7 +39,7 @@ namespace Gateway.App
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-           
+            app.UseCors("CorsPolicy");
             // Configure the HTTP request pipeline.
             if (!env.IsDevelopment())
             {
