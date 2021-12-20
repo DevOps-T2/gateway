@@ -1,6 +1,11 @@
-﻿using Microsoft.OpenApi.Models;
+﻿using Gateway.App.Middleware;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
+using System.IdentityModel.Tokens.Jwt;
+using System.Text;
 
 namespace Gateway.App
 {
@@ -21,9 +26,41 @@ namespace Gateway.App
                 options.AddPolicy("CorsPolicy",
                     builder => builder.AllowAnyOrigin()
                         .AllowAnyMethod()
-                        .AllowAnyHeader());
+                        .AllowAnyHeader())
+                ;
             });
 
+            services.AddAuthentication(options =>
+            {
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+
+            .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, x =>
+            {
+                x.RequireHttpsMetadata = false;
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    RequireExpirationTime = false,
+                    ValidateLifetime = false,
+                    ValidateActor = false,
+                    RequireSignedTokens = false,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes("test")),
+
+
+                    SignatureValidator = delegate (string token, TokenValidationParameters parameters) {
+
+                            var jwt = new JwtSecurityToken(token);
+
+                            return jwt;
+                    }
+                };
+            });
 
             services.AddRazorPages();
             services.AddControllersWithViews();
@@ -48,7 +85,11 @@ namespace Gateway.App
 
             app.UseRouting();
 
-            app.UseAuthorization();
+            //app.UseMiddleware<JwtMiddleware>();
+
+            app.UseSwagger();
+
+       
 
             app.UseSwaggerForOcelotUI(opt =>
             {
@@ -60,6 +101,9 @@ namespace Gateway.App
 
 
 
+            app.UseAuthentication();
+
+            app.UseAuthorization();
 
         }
     }
